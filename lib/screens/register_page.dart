@@ -19,7 +19,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   // Variable to store user input
-  String _name = '';
   DateTime? _dateOfBirth;
 
   // Regex pattern for basic validation
@@ -57,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold( // 👨 Parent
       appBar: AppBar(
         title: const Text(
-          'Join Us Today for the Cash Money!',
+          'Join Us Today!',
           style: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold
@@ -215,7 +214,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _name = _nameController.text;
                     try {
                     AuthService().register(_emailController.text, _passwordController.text);
                     } catch (e) {
@@ -239,7 +237,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProfilePage(name: _name),
+                        builder: (context) => ProfilePage(name: _emailController.text.split('@')[0]), // Pass the username part of the email
                       ),
                     );
                   }
