@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 
 import '../services/auth_service.dart';
+import 'welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String name;
@@ -48,9 +49,17 @@ class _ProfilePageState extends State<ProfilePage> {
           style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(onPressed: () {
-            AuthService().signOut();
-          }, icon: const Icon(Icons.logout))
+          IconButton(
+            onPressed: () async{
+              await AuthService().signOut();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder:  (context) => const WelcomePage()),
+                (route) => false,
+              );
+            }, 
+            icon: const Icon(Icons.logout)
+          )
         ],
         backgroundColor: Colors.purple,
       ),
