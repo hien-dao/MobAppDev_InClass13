@@ -68,194 +68,196 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: const EdgeInsets.all(16.0),
         child: Form( // 👶 Child
           key: _formKey,
-          child: Column(
-            children: [
-              const Text(
-                'Create Your Account',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              
-              // 👤 Name Field
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Full Name',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Text(
+                  'Create Your Account',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              
-              // 📧 Email Field
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email Address',
-                  prefixIcon: Icon(Icons.email),
-                  border: OutlineInputBorder(),
+                const SizedBox(height: 20),
+                
+                // 👤 Name Field
+                TextFormField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Full Name',
+                    prefixIcon: Icon(Icons.person),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!_emailPattern.hasMatch(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
+                
+                // 📧 Email Field
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email Address',
+                    prefixIcon: Icon(Icons.email),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    if (!_emailPattern.hasMatch(value)) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
 
-              // Date of Birth Field
-              FormField<DateTime>(
-                validator: (value) {
-                  if (_dateOfBirth == null) {
-                    return 'Please select your date of birth';
-                  }
-                  return null;
-                },
-                builder: (FormFieldState<DateTime> state) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextButton.icon(
-                        onPressed: () => _selectDate(context),
-                        icon: const Icon(Icons.calendar_today),
-                        label: Text(
-                          _dateOfBirth == null
-                              ? 'Select Date of Birth'
-                              : 'DOB: ${_dateOfBirth!.month}/${_dateOfBirth!.day}/${_dateOfBirth!.year}',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      if (state.hasError)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            state.errorText!,
-                            style: const TextStyle(color: Colors.red, fontSize: 12),
+                // Date of Birth Field
+                FormField<DateTime>(
+                  validator: (value) {
+                    if (_dateOfBirth == null) {
+                      return 'Please select your date of birth';
+                    }
+                    return null;
+                  },
+                  builder: (FormFieldState<DateTime> state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () => _selectDate(context),
+                          icon: const Icon(Icons.calendar_today),
+                          label: Text(
+                            _dateOfBirth == null
+                                ? 'Select Date of Birth'
+                                : 'DOB: ${_dateOfBirth!.month}/${_dateOfBirth!.day}/${_dateOfBirth!.year}',
+                            style: const TextStyle(fontSize: 16),
                           ),
                         ),
-                    ],
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              
-              // 🔒 Password Field
-              TextFormField(
-                controller: _passwordController,
-                obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  prefixIcon: const Icon(Icons.lock),
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    }, // This will be updated to toggle visibility
-                  ),
+                        if (state.hasError)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              state.errorText!,
+                              style: const TextStyle(color: Colors.red, fontSize: 12),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  if (!_passwordPattern.hasMatch(value)) {
-                    return 'Password must be at least 12 characters with uppercase, lowercase, number, and special character';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
+                
+                // 🔒 Password Field
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: !_isPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      }, // This will be updated to toggle visibility
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    if (!_passwordPattern.hasMatch(value)) {
+                      return 'Password must be at least 12 characters with uppercase, lowercase, number, and special character';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
 
-              // 🔒 Confirm Password Field
-              TextFormField(
-                obscureText: !_isConfirmPasswordVisible,
-                decoration: InputDecoration(
-                  labelText: 'Confirm Password',
-                  prefixIcon: Icon(Icons.lock_outline),
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                // 🔒 Confirm Password Field
+                TextFormField(
+                  obscureText: !_isConfirmPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    border: OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                        });
+                      }, // This will be updated to toggle visibility
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                      });
-                    }, // This will be updated to toggle visibility
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please confirm your password';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please confirm your password';
-                  }
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-              
-              // 🚀 Register Button
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    try {
-                    AuthService().register(_emailController.text, _passwordController.text);
-                    } catch (e) {
+                const SizedBox(height: 24),
+                
+                // 🚀 Register Button
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      try {
+                      AuthService().register(_emailController.text, _passwordController.text);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Registration failed: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
+
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Registration failed: $e'),
-                          backgroundColor: Colors.red,
+                        const SnackBar(
+                          content: Text('Welcome! Account created successfully.'),
+                          backgroundColor: Colors.green,
                         ),
                       );
-                      return;
+
+                      // Navigate to Welcome Page
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(name: _emailController.text.split('@')[0]), // Pass the username part of the email
+                        ),
+                      );
                     }
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Welcome! Account created successfully.'),
-                        backgroundColor: Colors.green,
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  ),
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
                       ),
-                    );
-
-                    // Navigate to Welcome Page
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfilePage(name: _emailController.text.split('@')[0]), // Pass the username part of the email
-                      ),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  ),
                 ),
-                child: const Text(
-                  'Register',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                    ),
-                ),
-              ),
-            ],
+              ],
+            )
           ),
         ),
       ),

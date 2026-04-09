@@ -11,22 +11,25 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to Firebase Authentication Demo!'),
+        title: const Text('Firebase Authentication Demo'),
         backgroundColor: Colors.purple,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AnimatedTextKit(
-              animatedTexts: [
-                TypewriterAnimatedText(
-                  'Ready to get verify yourself?',
-                  textStyle: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                  speed: const Duration(milliseconds: 100),
-                ),
-              ],
-              totalRepeatCount: 1,
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: AnimatedTextKit(
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                    'Ready to get verify yourself?',
+                    textStyle: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    speed: const Duration(milliseconds: 100),
+                  ),
+                ],
+                totalRepeatCount: 1,
+              ),
             ),
             const SizedBox(height: 40),
             Row(
