@@ -66,7 +66,8 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Center(
+          Form(
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,10 +147,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 24),
 
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async{
                     if (_formKey.currentState!.validate()) {
                       try {
-                      AuthService().changePassword(_passwordController.text);
+                      await AuthService().changePassword(_passwordController.text);
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

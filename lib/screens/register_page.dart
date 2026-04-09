@@ -213,10 +213,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 
                 // 🚀 Register Button
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                      AuthService().register(_emailController.text, _passwordController.text);
+                      await AuthService().register(_emailController.text, _passwordController.text);
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
