@@ -46,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text(
           'Hello, ${widget.name}!',
-          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
@@ -72,11 +72,6 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Hello, ${widget.name}!',
-                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
                 const SizedBox(height: 20),
                 Text(
                   'Want to change your password?',
