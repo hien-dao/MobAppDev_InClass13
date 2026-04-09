@@ -33,7 +33,11 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome Back!'),
+        title: const Text(
+          'Welcome Back!',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.purple,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -121,7 +125,7 @@ class _SignInPageState extends State<SignInPage> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(name: _emailController.text.split('@')[0]),
+                      builder: (context) => ProfilePage(name: _emailController.text),
                     ),
                   );
                 }

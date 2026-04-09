@@ -238,7 +238,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfilePage(name: _emailController.text.split('@')[0]), // Pass the username part of the email
+                          builder: (context) => ProfilePage(name: _emailController.text), // Pass the username part of the email
                         ),
                       );
                     }

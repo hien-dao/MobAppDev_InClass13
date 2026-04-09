@@ -11,7 +11,10 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firebase Authentication Demo'),
+        title: const Text(
+          'Firebase Authentication',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
         backgroundColor: Colors.purple,
       ),
       body: Center(
