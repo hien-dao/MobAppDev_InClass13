@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 
+import '../services/auth_service.dart';
+
 class ProfilePage extends StatefulWidget {
   final String name;
 
@@ -11,7 +13,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final _formKey = GlobalKey<FormState>();
+
   late ConfettiController _confettiController;
+  final TextEditingController _passwordController = TextEditingController();
+
+  // Regex pattern for basic validation
+  final RegExp _passwordPattern = RegExp(r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-\+=])(?=\S+$).{12,}$');
+
+  // State variables for password visibility
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   @override
   void initState() {
@@ -23,6 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void dispose() {
     _confettiController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -34,6 +47,11 @@ class _ProfilePageState extends State<ProfilePage> {
           'Hello, ${widget.name}!',
           style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(onPressed: () {
+            AuthService().signOut();
+          }, icon: const Icon(Icons.logout))
+        ],
         backgroundColor: Colors.purple,
       ),
       body: Stack(
@@ -47,12 +65,112 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text(
                   'Hello, ${widget.name}!',
                   style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'You have successfully signed up for the Cash Money App!',
-                  style: TextStyle(fontSize: 18),
+                Text(
+                  'Want to change your password?',
+                  style: const TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                
+                // 🔒 Password Field
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: !_isPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      }, // This will be updated to toggle visibility
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    if (!_passwordPattern.hasMatch(value)) {
+                      return 'Password must be at least 12 characters with uppercase, lowercase, number, and special character';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+
+                // 🔒 Confirm Password Field
+                TextFormField(
+                  obscureText: !_isConfirmPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    border: OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                        });
+                      }, // This will be updated to toggle visibility
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please confirm your password';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      try {
+                      AuthService().changePassword(_passwordController.text);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Password change failed: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Password changed successfully.'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  ),
+                  child: const Text(
+                    'Change Password',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                      ),
+                  ),
                 ),
               ],
             )
