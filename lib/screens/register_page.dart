@@ -235,11 +235,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       );
 
                       // Navigate to Welcome Page
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProfilePage(name: _emailController.text), // Pass the username part of the email
                         ),
+                        (route) => false,
                       );
                     }
                   },

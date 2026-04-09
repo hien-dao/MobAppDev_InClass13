@@ -124,11 +124,12 @@ class _SignInPageState extends State<SignInPage> {
                     );
 
                     // Navigate to Welcome Page
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProfilePage(name: _emailController.text),
                       ),
+                      (route) => false,
                     );
                   }
                 },
