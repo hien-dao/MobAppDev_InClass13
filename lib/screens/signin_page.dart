@@ -103,11 +103,11 @@ class _SignInPageState extends State<SignInPage> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   try {
-                  AuthService().register(_emailController.text, _passwordController.text);
+                  AuthService().signIn(_emailController.text, _passwordController.text);
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Registration failed: $e'),
+                        content: Text('Sign-in failed: $e'),
                         backgroundColor: Colors.red,
                       ),
                     );
